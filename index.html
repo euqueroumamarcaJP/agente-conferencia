@@ -378,7 +378,6 @@
       });
     }
 
-    // Chip selection
     document.getElementById('profile-chips').addEventListener('click', (e) => {
       if (e.target.classList.contains('chip')) {
         document.querySelectorAll('#profile-chips .chip').forEach(c => c.classList.remove('active'));
@@ -395,7 +394,6 @@
       }
     });
 
-    // Dropzone
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('file-input');
 
@@ -466,7 +464,6 @@
       btn.disabled = state.loading || state.files.length === 0;
     }
 
-    // Analyze
     document.getElementById('analyze-btn').addEventListener('click', analyze);
     document.getElementById('reset-btn').addEventListener('click', reset);
 
@@ -543,7 +540,7 @@ Responda APENAS com JSON válido neste formato exato, sem markdown, sem cercas d
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: claude-3-5-sonnet-20240620
+            model: 'claude-3-5-sonnet-20240620',
             max_tokens: 2000,
             messages: [{ role: 'user', content }],
           }),
