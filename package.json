@@ -1,0 +1,7 @@
+{
+  "name": "agente-conferencia-documentacao",
+  "version": "1.0.0",
+  "description": "Agente de conferência automatizada de documentação para Grupo Conexão",
+  "private": true,
+  "type": "module"
+}

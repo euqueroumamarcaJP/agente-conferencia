@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conferência de Documentação · Grupo Conexão</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F1EA;
+      --paper: #FAF7F1;
+      --navy: #1F2A44;
+      --gold: #B8924A;
+      --graphite: #2B2B2B;
+      --muted: #8A8578;
+      --line: #D9D3C5;
+      --success: #3A6B4A;
+      --warning: #A67C2E;
+      --danger: #8E3A3A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--cream);
+      color: var(--graphite);
+      font-family: 'Manrope', -apple-system, sans-serif;
+      font-weight: 300;
+      padding: 60px 24px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 880px; margin: 0 auto; }
+
+    .header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 32px;
+      margin-bottom: 56px;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 44px;
+      font-weight: 500;
+      color: var(--navy);
+      margin: 18px 0 10px;
+      letter-spacing: -0.01em;
+    }
+    .subtitle { font-size: 14px; color: var(--muted); letter-spacing: 0.02em; }
+
+    section { margin-bottom: 48px; }
+    .step-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; }
+    .step-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--navy);
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      padding: 10px 18px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--graphite);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+    }
+    .chip:hover { border-color: var(--navy); }
+    .chip.active { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+
+    .dropzone {
+      border: 1px dashed var(--line);
+      background: transparent;
+      padding: 56px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .dropzone:hover, .dropzone.active { border-color: var(--navy); background: var(--paper); }
+    .dropzone-text { font-size: 14px; color: var(--graphite); letter-spacing: 0.02em; margin-top: 16px; }
+    .dropzone-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    .file-list { margin-top: 20px; }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+    .file-info { display: flex; align-items: center; gap: 12px; }
+    .file-name { font-size: 13px; color: var(--graphite); }
+    .file-size { font-size: 11px; color: var(--muted); }
+    .file-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+    }
+    .file-remove:hover { color: var(--danger); }
+
+    .action { text-align: center; margin-bottom: 48px; }
+    .btn-primary {
+      padding: 16px 56px;
+      background: var(--navy);
+      color: var(--paper);
+      border: none;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-primary:hover:not(:disabled) { opacity: 0.9; }
+    .btn-primary:disabled { background: var(--muted); cursor: not-allowed; }
+    .btn-reset {
+      display: block;
+      margin: 16px auto 0;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: 'Manrope', sans-serif;
+    }
+
+    .error-box {
+      padding: 20px 24px;
+      background: #F5E8E8;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-size: 13px;
+      margin-bottom: 32px;
+    }
+
+    .result {
+      background: var(--paper);
+      padding: 48px 40px;
+      border-top: 2px solid var(--navy);
+    }
+    .status-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .status-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .status-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 500;
+      margin-top: 12px;
+      letter-spacing: 0.05em;
+    }
+    .status-completo { color: var(--success); }
+    .status-incompleto { color: var(--warning); }
+
+    .result-section { margin-bottom: 36px; }
+    h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .item-row {
+      display: flex;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .item-icon { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; }
+    .item-content { flex: 1; }
+    .item-title { font-size: 14px; color: var(--graphite); font-weight: 400; }
+    .item-title-bold { font-weight: 500; }
+    .item-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .item-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 4px; }
+    .item-detail { font-size: 13px; color: var(--graphite); margin-top: 4px; }
+
+    .next-steps {
+      margin-top: 40px;
+      padding: 28px;
+      background: var(--cream);
+      border-left: 3px solid var(--gold);
+    }
+    .next-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .next-text { font-size: 14px; color: var(--graphite); line-height: 1.6; }
+
+    .footer {
+      text-align: center;
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .footer-text {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hidden { display: none; }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid transparent;
+      border-top-color: var(--paper);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 16px; }
+      h1 { font-size: 32px; }
+      .result { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <p class="eyebrow">Grupo Conexão · Processo de Ativação</p>
+      <h1>Conferência de Documentação</h1>
+      <p class="subtitle">Validação automatizada da pasta do cliente</p>
+    </header>
+
+    <section>
+      <div class="step-header">
+        <span class="step-number">01</span>
+        <h2>Perfil de renda do cliente</h2>
+      </div>
+      <div class="chips" id="profile-chips">
+        <button class="chip active" data-value="formal">Renda Formal</button>
+        <button class="chip" data-value="informal">Renda Informal</button>
+        <button class="chip" data-value="mista">Renda Mista</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="step-header">
+        <span class="step-number">02</span>
+        <h2>Composição familiar</h2>
+      </div>
+      <div class="chips" id="dep-chips">
+        <button class="chip active" data-value="none">Sem dependente</button>
+        <button class="chip" data-value="maior">Dependente maior</button>
+        <button class="chip" data-value="menor">Dependente menor</button>
+        <button class="chip" data-value="ambos">Maior e menor</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="step-header">
+        <span class="step-number">03</span>
+        <h2>Documentação do cliente</h2>
+      </div>
+      <div class="dropzone" id="dropzone">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8A8578" stroke-width="1" style="margin: 0 auto;">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <p class="dropzone-text">Arraste os arquivos ou clique para selecionar</p>
+        <p class="dropzone-sub">PDF, JPG, PNG · múltiplos arquivos aceitos</p>
+        <input type="file" id="file-input" multiple accept=".pdf,image/*" class="hidden">
+      </div>
+      <div class="file-list" id="file-list"></div>
+    </section>
+
+    <section class="action">
+      <button class="btn-primary" id="analyze-btn" disabled>
+        <span id="btn-spinner" class="spinner hidden"></span>
+        <span id="btn-text">Conferir documentação</span>
+      </button>
+      <button class="btn-reset hidden" id="reset-btn">Nova conferência</button>
+    </section>
+
+    <div id="error-container"></div>
+    <div id="result-container"></div>
+
+    <footer class="footer">
+      <p class="footer-text">Grupo Conexão</p>
+    </footer>
+  </div>
+
+  <script>
+    const CHECKLISTS = {
+      formal: [
+        'RG ou CNH',
+        'Certidão de nascimento (se não tiver RG)',
+        'Comprovante de endereço (no mesmo endereço informado)',
+        'Carteira de Trabalho Digital',
+        'Extrato do FGTS atualizado',
+        'Extrato do INSS',
+        'Contracheques dos últimos 3 meses',
+      ],
+      informal: [
+        'Despesas que estejam no nome do cliente',
+        'Extratos bancários dos últimos 6 meses',
+        'Redes sociais da loja ou trabalho',
+        'Conversas com clientes relacionadas à venda',
+        'Fotos do ambiente de trabalho e do cliente exercendo a atividade',
+        'MEI ou CNPJ (caso possua)',
+      ],
+      depMaior: [
+        'Certidão de nascimento do dependente',
+        'Carteira de Trabalho Digital do dependente',
+        'RG ou CNH do dependente',
+        'Declaração de parentesco',
+      ],
+      depMenor: [
+        'Certidão de nascimento do dependente menor',
+      ],
+    };
+
+    let state = {
+      profile: 'formal',
+      dep: 'none',
+      files: [],
+      loading: false,
+    };
+
+    function buildChecklist(profile, dep) {
+      let list = [];
+      if (profile === 'formal' || profile === 'mista') list = list.concat(CHECKLISTS.formal);
+      if (profile === 'informal' || profile === 'mista') list = list.concat(CHECKLISTS.informal);
+      if (dep === 'maior') list = list.concat(CHECKLISTS.depMaior);
+      if (dep === 'menor') list = list.concat(CHECKLISTS.depMenor);
+      if (dep === 'ambos') list = list.concat(CHECKLISTS.depMaior).concat(CHECKLISTS.depMenor);
+      return list;
+    }
+
+    function fileToBase64(file) {
+      return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result.split(',')[1]);
+        r.onerror = () => rej(new Error('Falha ao ler ' + file.name));
+        r.readAsDataURL(file);
+      });
+    }
+
+    // Chip selection
+    document.getElementById('profile-chips').addEventListener('click', (e) => {
+      if (e.target.classList.contains('chip')) {
+        document.querySelectorAll('#profile-chips .chip').forEach(c => c.classList.remove('active'));
+        e.target.classList.add('active');
+        state.profile = e.target.dataset.value;
+      }
+    });
+
+    document.getElementById('dep-chips').addEventListener('click', (e) => {
+      if (e.target.classList.contains('chip')) {
+        document.querySelectorAll('#dep-chips .chip').forEach(c => c.classList.remove('active'));
+        e.target.classList.add('active');
+        state.dep = e.target.dataset.value;
+      }
+    });
+
+    // Dropzone
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('file-input');
+
+    dropzone.addEventListener('click', () => fileInput.click());
+
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('active');
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('active'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('active');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(fileList) {
+      const arr = Array.from(fileList);
+      const valid = arr.filter(f => f.type === 'application/pdf' || f.type.startsWith('image/'));
+      const oversized = valid.filter(f => f.size > 4 * 1024 * 1024);
+      if (oversized.length > 0) {
+        showError('Arquivo(s) maior(es) que 4MB: ' + oversized.map(f => f.name).join(', ') + '. Comprima antes de enviar.');
+        return;
+      }
+      state.files = state.files.concat(valid);
+      renderFiles();
+      updateAnalyzeButton();
+    }
+
+    function removeFile(idx) {
+      state.files.splice(idx, 1);
+      renderFiles();
+      updateAnalyzeButton();
+    }
+
+    function renderFiles() {
+      const list = document.getElementById('file-list');
+      list.innerHTML = state.files.map((f, i) => `
+        <div class="file-item">
+          <div class="file-info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F2A44" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            <span class="file-name">${escapeHtml(f.name)}</span>
+            <span class="file-size">${(f.size / 1024).toFixed(0)} KB</span>
+          </div>
+          <button class="file-remove" onclick="removeFile(${i})" aria-label="Remover">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function updateAnalyzeButton() {
+      const btn = document.getElementById('analyze-btn');
+      btn.disabled = state.loading || state.files.length === 0;
+    }
+
+    // Analyze
+    document.getElementById('analyze-btn').addEventListener('click', analyze);
+    document.getElementById('reset-btn').addEventListener('click', reset);
+
+    async function analyze() {
+      if (state.files.length === 0) return;
+      
+      state.loading = true;
+      setLoading(true);
+      clearError();
+      clearResult();
+
+      try {
+        const checklist = buildChecklist(state.profile, state.dep);
+        const content = [];
+
+        for (const file of state.files) {
+          const b64 = await fileToBase64(file);
+          if (file.type === 'application/pdf') {
+            content.push({
+              type: 'document',
+              source: { type: 'base64', media_type: 'application/pdf', data: b64 },
+            });
+          } else {
+            content.push({
+              type: 'image',
+              source: { type: 'base64', media_type: file.type, data: b64 },
+            });
+          }
+          content.push({ type: 'text', text: `[Arquivo enviado: ${file.name}]` });
+        }
+
+        const today = new Date().toLocaleDateString('pt-BR');
+        const perfilLabel = {
+          formal: 'Renda Formal',
+          informal: 'Renda Informal (autônomo)',
+          mista: 'Renda Mista (formal + informal)',
+        }[state.profile];
+        const depLabel = {
+          none: 'Sem dependentes',
+          maior: 'Com dependente maior de idade',
+          menor: 'Com dependente menor de idade',
+          ambos: 'Com dependente maior e menor',
+        }[state.dep];
+
+        const prompt = `Você é um agente de conferência de documentação para o processo de ativação de pasta de cliente no Grupo Conexão (setor imobiliário).
+
+Data atual: ${today}
+Perfil do cliente: ${perfilLabel}
+Dependentes: ${depLabel}
+
+CHECKLIST OBRIGATÓRIO:
+${checklist.map((c, i) => `${i+1}. ${c}`).join('\n')}
+
+TAREFA:
+Analise cada documento enviado. Para cada item do checklist, verifique:
+1. Se o documento correspondente foi enviado
+2. Se está legível e válido
+3. Se está dentro do prazo de validade (comprovantes de endereço máximo 60 dias, contracheques dos últimos 3 meses, extratos bancários dos últimos 6 meses)
+4. Se há inconsistências ou problemas
+
+Responda APENAS com JSON válido neste formato exato, sem markdown, sem cercas de código, sem texto antes ou depois:
+{
+  "presentes": [{"item": "nome do item do checklist", "arquivo": "nome do arquivo enviado", "observacao": "breve nota"}],
+  "faltando": ["item do checklist que não foi enviado"],
+  "atencao": [{"item": "nome do item", "problema": "descrição do problema detectado"}],
+  "nao_identificados": [{"arquivo": "nome do arquivo", "motivo": "por que não foi possível classificar"}],
+  "status": "COMPLETO" ou "INCOMPLETO",
+  "proximos_passos": "orientação objetiva sobre o que o cliente precisa enviar ou corrigir"
+}`;
+
+        content.push({ type: 'text', text: prompt });
+
+        const response = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 2000,
+            messages: [{ role: 'user', content }],
+          }),
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Erro ${response.status}: ${errText.slice(0, 200)}`);
+        }
+
+        const data = await response.json();
+        const rawText = data.content.filter(c => c.type === 'text').map(c => c.text).join('\n');
+        const cleaned = rawText.replace(/```json|```/g, '').trim();
+        const parsed = JSON.parse(cleaned);
+        renderResult(parsed);
+      } catch (e) {
+        showError('Erro ao processar: ' + e.message);
+      } finally {
+        state.loading = false;
+        setLoading(false);
+      }
+    }
+
+    function setLoading(loading) {
+      document.getElementById('btn-spinner').classList.toggle('hidden', !loading);
+      document.getElementById('btn-text').textContent = loading ? 'Analisando' : 'Conferir documentação';
+      updateAnalyzeButton();
+    }
+
+    function showError(msg) {
+      document.getElementById('error-container').innerHTML = `<div class="error-box">${escapeHtml(msg)}</div>`;
+    }
+
+    function clearError() {
+      document.getElementById('error-container').innerHTML = '';
+    }
+
+    function clearResult() {
+      document.getElementById('result-container').innerHTML = '';
+      document.getElementById('reset-btn').classList.add('hidden');
+    }
+
+    function reset() {
+      state.files = [];
+      renderFiles();
+      clearResult();
+      clearError();
+      updateAnalyzeButton();
+    }
+
+    function renderResult(r) {
+      const statusClass = r.status === 'COMPLETO' ? 'status-completo' : 'status-incompleto';
+      
+      let html = `<section class="result">
+        <div class="status-header">
+          <p class="status-label">Status da pasta</p>
+          <p class="status-value ${statusClass}">${escapeHtml(r.status || 'INCOMPLETO')}</p>
+        </div>`;
+
+      if (r.presentes && r.presentes.length > 0) {
+        html += `<div class="result-section"><h3>Documentos validados</h3>`;
+        r.presentes.forEach(p => {
+          html += `<div class="item-row">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="#3A6B4A" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <div class="item-content">
+              <p class="item-title">${escapeHtml(p.item || '')}</p>
+              ${p.arquivo ? `<p class="item-sub">${escapeHtml(p.arquivo)}</p>` : ''}
+              ${p.observacao ? `<p class="item-note">${escapeHtml(p.observacao)}</p>` : ''}
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      if (r.faltando && r.faltando.length > 0) {
+        html += `<div class="result-section"><h3>Pendências</h3>`;
+        r.faltando.forEach(f => {
+          html += `<div class="item-row">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="#8E3A3A" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <div class="item-content"><p class="item-title">${escapeHtml(f)}</p></div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      if (r.atencao && r.atencao.length > 0) {
+        html += `<div class="result-section"><h3>Atenção</h3>`;
+        r.atencao.forEach(a => {
+          html += `<div class="item-row">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="#A67C2E" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <div class="item-content">
+              <p class="item-title item-title-bold">${escapeHtml(a.item || '')}</p>
+              <p class="item-detail">${escapeHtml(a.problema || '')}</p>
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      if (r.nao_identificados && r.nao_identificados.length > 0) {
+        html += `<div class="result-section"><h3>Arquivos não identificados</h3>`;
+        r.nao_identificados.forEach(n => {
+          html += `<div style="padding: 12px 0; border-bottom: 1px solid var(--line);">
+            <p class="item-title">${escapeHtml(n.arquivo || '')}</p>
+            <p class="item-sub">${escapeHtml(n.motivo || '')}</p>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+
+      if (r.proximos_passos) {
+        html += `<div class="next-steps">
+          <p class="next-label">Próximos passos</p>
+          <p class="next-text">${escapeHtml(r.proximos_passos)}</p>
+        </div>`;
+      }
+
+      html += `</section>`;
+      document.getElementById('result-container').innerHTML = html;
+      document.getElementById('reset-btn').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
